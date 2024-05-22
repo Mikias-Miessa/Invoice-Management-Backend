@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 module.exports.RegisterUser = async function (req, res) {
   try {
     const { email, password } = req.body;
-
+    console.log(req.body);
     // Check if the user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email: email },
@@ -36,6 +36,7 @@ module.exports.RegisterUser = async function (req, res) {
       token: generateToken(newUser.id),
     });
   } catch (error) {
+    console.log(error.message);
     return res.status(500).json({
       message: 'Something went wrong',
       error: error.message,
