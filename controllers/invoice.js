@@ -129,6 +129,7 @@ module.exports.DeleteInvoice = async function (req, res) {
 
     return res.status(200).json({
       msg: 'Invoice deleted successfully',
+      id: invoiceId,
     });
   } catch (err) {
     return res.status(500).json({

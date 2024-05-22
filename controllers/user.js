@@ -48,13 +48,14 @@ module.exports.LoginUser = async function (req, res) {
     const { email, password } = req.body;
 
     // Check if the user exists
+    console.log(req.body);
     const existingUser = await prisma.user.findUnique({
       where: { email: email },
     });
 
     if (!existingUser) {
       return res.status(401).json({
-        message: 'Authentication failed',
+        message: 'No user found with this email',
       });
     }
 
@@ -65,13 +66,14 @@ module.exports.LoginUser = async function (req, res) {
     );
     if (!isPasswordValid) {
       return res.status(401).json({
-        message: 'Authentication failed',
+        message: 'Wrong Password',
       });
     }
 
     return res.status(200).json({
       message: 'Authentication successful, Logged in user',
       token: generateToken(existingUser.id),
+      user: existingUser,
     });
   } catch (error) {
     return res.status(500).json({
